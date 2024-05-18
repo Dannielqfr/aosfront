@@ -1,0 +1,44 @@
+<div>
+  <div class="flex justify-between items-center mb-5">
+    <button mat-raised-button color="accent" (click)="openDialog()">Agregar</button>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Buscar</mat-label>
+        <input matInput placeholder="Ex. Pizza" value="" />
+      </mat-form-field>
+    </form>
+  </div>
+  <div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="alumno">
+        <th mat-header-cell *matHeaderCellDef>Alumno</th>
+        <td mat-cell *matCellDef="let element">{{ element.alumno }}</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let element">{{ element.fecha }}</td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="talleres">
+        <th mat-header-cell *matHeaderCellDef>Talleres inscritos</th>
+        <td mat-cell *matCellDef="let element">{{ element.talleres }}</td>
+      </ng-container>
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element"><mat-icon>edit</mat-icon></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<!-- <h2 mat-dialog-title>Hi {{ data.name }}</h2> -->
+<mat-dialog-content>
+  <p>Agregar</p>
+  <mat-form-field>
+    <mat-label>Nombres</mat-label>
+    <input matInput />
+    <!-- [(ngModel)]="" data.animal -->
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button [mat-dialog-close]="data.animal" color="success"  cdkFocusInitial>
+    Grabar
+  </button>
+</mat-dialog-actions>

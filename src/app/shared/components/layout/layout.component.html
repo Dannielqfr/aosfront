@@ -1,0 +1,33 @@
+<!-- <div class="w-screen h-screen bg-slate-100 flex">
+  <div class="min-w-[250px] w-1/12 bg-slate-200 h-screen p-4"><app-sidebar/></div>
+  <div class="">
+    <router-outlet />
+  </div>
+</div> -->
+<mat-drawer-container class="h-screen" autosize>
+  <mat-drawer #drawer class="bg-white" mode="side">
+    <!-- <p>Auto-resizing sidenav</p> -->
+    @if (showFiller) {
+    <app-sidebar />
+    }
+    <!-- <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button> -->
+  </mat-drawer>
+
+  <div class="p-4">
+    <button
+      type="button"
+      (click)="drawer.toggle()"
+      mat-icon-button
+      color="accent"
+      (click)="showFiller = !showFiller"
+      class="fixed"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="h-full p-7">
+      <router-outlet />
+    </div>
+  </div>
+</mat-drawer-container>

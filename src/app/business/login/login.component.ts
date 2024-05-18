@@ -8,12 +8,22 @@ import { MatInput } from '@angular/material/input';
 import { MatSelect, MatOption } from '@angular/material/select';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MatCard, MatCardTitle, MatCardContent, MatButton, MatFormField, MatLabel, MatInput, MatSelect, MatOption],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    MatCard,
+    MatCardTitle,
+    MatCardContent,
+    MatButton,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatSelect,
+    MatOption,
+  ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
-export class AppComponent {
-  title = 'Front';
-}
+export class LoginComponent {}
