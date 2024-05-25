@@ -1,18 +1,16 @@
 <div>
   <div class="flex justify-between items-center mb-5">
-    <button mat-raised-button color="accent" (click)="openDialog()">Agregar</button>
+    <button mat-raised-button color="accent" (click)="openDialog()">
+      <mat-icon>add</mat-icon>Agregar
+    </button>
     <form class="example-form">
       <mat-form-field class="example-full-width">
         <mat-label>Buscar</mat-label>
-        <input matInput placeholder="Ex. Pizza" value="" />
+        <input matInput placeholder="Nombre" value="" />
       </mat-form-field>
     </form>
   </div>
-  <div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!--- Note that these columns can be defined in any order.
-              The actual rendered columns are set as a property on the row definition" -->
-
       <!-- Name Column -->
       <ng-container matColumnDef="alumno">
         <th mat-header-cell *matHeaderCellDef>Alumno</th>
@@ -40,5 +38,4 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-  </div>
 </div>

@@ -20,8 +20,7 @@ export const routes: Routes = [
       },
       {
         path: 'workshops',
-        component: PeopleComponent,
-        // component: WorkshopsComponent,
+        component: WorkshopsComponent,
       },
       {
         path: 'inscriptions',

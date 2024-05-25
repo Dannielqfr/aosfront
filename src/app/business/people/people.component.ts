@@ -7,8 +7,6 @@ import { MatInput } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import {
   MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
   MatDialogTitle,
   MatDialogContent,
   MatDialogActions,
@@ -45,8 +43,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatButton,
     MatInput,
     FormsModule,
-    MatTableModule,
     MatIcon,
+    MatTableModule,
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
@@ -59,11 +57,12 @@ export class PeopleComponent {
   displayedColumns: string[] = ['alumno', 'fecha', 'talleres', 'position'];
   dataSource = ELEMENT_DATA;
 
-
   constructor(public dialog: MatDialog) {}
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: { name: "this.name", animal: "this.animal" },
+      data: { name: 'this.name', animal: 'this.animal' },
+      width: '40%',
+      minWidth: '350px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

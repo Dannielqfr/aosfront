@@ -1,1 +1,42 @@
-<p>workshops works!</p>
+<div>
+  <div class="flex justify-between items-center align-middle mb-5">
+    <button mat-raised-button color="accent" (click)="openDialog()">
+      <mat-icon>add</mat-icon>Agregar
+    </button>
+    <img src="https://p.calameoassets.com/230411003925-acdb259630bd2654c88b612b176a3a2e/p1.jpg" class="w-[100px]"/>
+    <form>
+      <mat-form-field>
+        <mat-label>Buscar</mat-label>
+        <input matInput placeholder="Nombre" value="" />
+      </mat-form-field>
+    </form>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Name Column -->
+    <ng-container matColumnDef="alumno">
+      <th mat-header-cell *matHeaderCellDef>Alumno</th>
+      <td mat-cell *matCellDef="let element">{{ element.alumno }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let element">{{ element.fecha }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="talleres">
+      <th mat-header-cell *matHeaderCellDef>Talleres inscritos</th>
+      <td mat-cell *matCellDef="let element">{{ element.talleres }}</td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer" (click)="openDialog()">edit</mat-icon></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
