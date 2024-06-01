@@ -10,32 +10,13 @@
       </mat-form-field>
     </form>
   </div>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!-- Name Column -->
-      <ng-container matColumnDef="alumno">
-        <th mat-header-cell *matHeaderCellDef>Alumno</th>
-        <td mat-cell *matCellDef="let element">{{ element.alumno }}</td>
-      </ng-container>
-
-      <!-- Weight Column -->
-      <ng-container matColumnDef="fecha">
-        <th mat-header-cell *matHeaderCellDef>Fecha</th>
-        <td mat-cell *matCellDef="let element">{{ element.fecha }}</td>
-      </ng-container>
-
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="talleres">
-        <th mat-header-cell *matHeaderCellDef>Talleres inscritos</th>
-        <td mat-cell *matCellDef="let element">{{ element.talleres }}</td>
-      </ng-container>
-
-      <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef>Acciones</th>
-        <td mat-cell *matCellDef="let element"><mat-icon>edit</mat-icon></td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+    
 </div>
+
+@if(peopleResult$ | async; as resultObject ){
+  <ul>
+    @for (item of resultObject.data; track $index) {
+      <li>{{item.personname}}</li>
+    }
+  </ul>
+}

@@ -11,7 +11,7 @@ export class PeopleService {
   constructor(private http:HttpClient) { }
 
   getPeople():Observable<HttpResult>{
-    return this.http.get<HttpResult>(`localhost:3000/person/get`)
+    return this.http.get<HttpResult>(`http://127.0.0.1:3000/person/get`)
   }
 
 }

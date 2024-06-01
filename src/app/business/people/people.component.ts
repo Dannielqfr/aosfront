@@ -14,8 +14,9 @@ import {
 } from '@angular/material/dialog';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { PeopleService } from '../../services/people.service';
-import { Observable } from 'rxjs';
-import { TypePerson } from '../../interfaces/types';
+import { Observable, map } from 'rxjs';
+import { HttpResult, TypePerson, TypeQueryResult } from '../../interfaces/types';
+import { AsyncPipe } from '@angular/common'
 
 export interface PeriodicElement {
   alumno: string;
@@ -52,23 +53,28 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    AsyncPipe
   ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.css',
 })
 export class PeopleComponent {
-  public peopleResult$!: Observable<TypePerson>
+  public peopleResult$!: Observable<HttpResult>
   displayedColumns: string[] = ['alumno', 'fecha', 'talleres', 'position'];
   dataSource = ELEMENT_DATA;
 
   constructor(public dialog: MatDialog, private service: PeopleService) { }
 
   ngOnInit() {
-    this.service.getPeople().subscribe(data => {
-      console.log("***")
-      console.log(data);
-      console.log("***")
-    })
+    this.peopleResult$ = this.service.getPeople().pipe(
+      map((response: HttpResult) => response) // Asegúrate de que response.data es un array de TypePerson
+    );
+    // this.service.getPeople().subscribe(data => {
+    //   console.log("***")
+    //   console.log(data);
+    //   console.log("***")
+    //   this.peopleResult$ = data.data
+    // })
   }
 
   openDialog(): void {
