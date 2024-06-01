@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -13,6 +13,9 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { PeopleService } from '../../services/people.service';
+import { Observable } from 'rxjs';
+import { TypePerson } from '../../interfaces/types';
 
 export interface PeriodicElement {
   alumno: string;
@@ -54,10 +57,20 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './people.component.css',
 })
 export class PeopleComponent {
+  public peopleResult$!: Observable<TypePerson>
   displayedColumns: string[] = ['alumno', 'fecha', 'talleres', 'position'];
   dataSource = ELEMENT_DATA;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private service: PeopleService) { }
+
+  ngOnInit() {
+    this.service.getPeople().subscribe(data => {
+      console.log("***")
+      console.log(data);
+      console.log("***")
+    })
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       data: { name: 'this.name', animal: 'this.animal' },
