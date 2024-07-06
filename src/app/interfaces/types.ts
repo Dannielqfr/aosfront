@@ -5,19 +5,19 @@ export interface TypeQueryResult {
 }
 
 export interface TypeDocumentType {
-  iddocumenttype?: number;
-  documenttypename: string;
+    iddocumenttype?: number;
+    documenttypename: string;
 }
 
 export interface TypePerson {
-  documentnumber: string;
-  personname: string;
-  personlastname: string;
-  iddocumenttype: number;
-  address?: string;
-  phonenumber?:string;
-  birthdate?:Date;
-  idparent?: string;
+    documentnumber: string;
+    personname: string;
+    personlastname: string;
+    iddocumenttype: number;
+    address?: string;
+    phonenumber?: string;
+    birthdate?: Date | string;
+    idparent?: string;
 }
 
 export interface TypeWorkshop {
@@ -40,20 +40,20 @@ export interface TypeInscription {
     idworkshop: number;
     idstudent: number;
     inscripciondate: Date;
-	cost: number;
-	state: string;
-	isrequiredfirstdoc?: string;
+    cost: number;
+    state: string;
+    isrequiredfirstdoc?: string;
     namefirstdoc: string;
-	filefirstdoc: string;
+    filefirstdoc: string;
     isrequiredseconddoc: string;
-	nameseconddoc: string;
+    nameseconddoc: string;
     fileseconddoc: string;
-	isrequiredthirddoc: string;
-	namethirddoc: string;
+    isrequiredthirddoc: string;
+    namethirddoc: string;
     filethirddoc: string;
 }
 
-export interface TypePayments{
+export interface TypePayments {
     idpayment?: number,
     idinscription: number,
     payment: number,
@@ -65,4 +65,16 @@ export interface HttpResult {
     success: boolean;
     data?: any; //TypeDocumentType | TypeDocumentType[]
     message?: string;
-  }
+}
+export interface HttpAuthResult {
+    success: boolean;
+    token: string;
+    message?: string;
+    user: User;
+}
+
+interface User {
+    documentnumber: string,
+    name: string,
+    lastname: string,
+}

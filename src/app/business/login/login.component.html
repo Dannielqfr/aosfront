@@ -1,81 +1,72 @@
 <main class="main h-screen">
-    <div class="pt-5 bg-purple-500 text-white items-center flex justify-center fixed w-full">
-      <h1 class="text-center">CENTRO CULTURAL CRESCENDO</h1>
-    </div>
-    <div
-      class="h-full flex sm:flex-col lg:flex-row m-auto w-5/6 justify-center gap-8"
-    >
-      <mat-card class="w-3/12 h-fit my-auto p-6">
-        <mat-card-title class="text-center">ACCESO</mat-card-title>
-        <mat-card-content class="mt-8 px-3">
-          <form class="flex flex-col">
-            <mat-form-field>
-              <mat-label>Usuario</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Contraseña</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <button
-              mat-flat-button
-              color="primary"
-              class="w-3/6 mx-auto min-w-fit"
-            >
-              Ingresar
-            </button>
-          </form>
-          <div class="flex flex-row justify-around mt-3">
-            <button mat-flat-button color="accent">Limpiar</button>
-            <button mat-button>Recuperar Contraseña</button>
-          </div>
-        </mat-card-content>
-      </mat-card>
-      <mat-card class="w-7/12 h-fit my-auto py-6">
-        <mat-card-title class="text-center"
-          >INGRESAR PRE-INSCRIPCION</mat-card-title
-        >
-        <mat-card-content class="mt-8">
-          <form class="flex flex-row flex-wrap gap-2 justify-center">
-            <mat-form-field class="w-5/12">
-              <mat-label>Tipo Documento</mat-label>
-              <mat-select>
-                <mat-option value="dni">D.N.I.</mat-option>
-                <mat-option value="ce">Carne Extranjeria</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="w-5/12">
-              <mat-label>Número de Documento</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field class="w-5/12">
-              <mat-label>Nombres</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field class="w-5/12">
-              <mat-label>Apellidos</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field class="w-5/12">
-              <mat-label>Correo</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field class="w-5/12">
-              <mat-label>Celular</mat-label>
-              <input matInput />
-            </mat-form-field>
-            <mat-form-field class="w-10/12">
-              <mat-label>Taller Interesado</mat-label>
-              <mat-select>
-                <mat-option value="guitarra">Guitarra</mat-option>
-                <mat-option value="canto">Canto</mat-option>
-                <mat-option value="piano">Piano</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button mat-flat-button color="primary" class="w-2/6">Registrar</button>
-          </form>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </main>
-  
+  <div class="pt-5 bg-purple-500 text-white items-center flex justify-center fixed w-full">
+    <h1 class="text-center">CENTRO CULTURAL CRESCENDO</h1>
+  </div>
+  <div class="h-full flex sm:flex-col lg:flex-row m-auto w-5/6 justify-center gap-8">
+    <mat-card class="w-3/12 h-fit my-auto p-6">
+      <mat-card-title class="text-center">ACCESO</mat-card-title>
+      <mat-card-content class="mt-8 px-3">
+        <form class="flex flex-col" (ngSubmit)="onLogin()">
+          <mat-form-field>
+            <mat-label>Usuario</mat-label>
+            <input matInput [(ngModel)]="username" name="username" required/>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Contraseña</mat-label>
+            <input matInput [(ngModel)]="password" name="password" type="password" required/>
+          </mat-form-field>
+          <button mat-flat-button color="primary" class="w-3/6 mx-auto min-w-fit">
+            Ingresar
+          </button>
+        </form>
+        <div class="flex flex-row justify-around mt-3">
+          <button mat-flat-button color="accent">Limpiar</button>
+          <button mat-button>Recuperar Contraseña</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="w-7/12 h-fit my-auto py-6">
+      <mat-card-title class="text-center">INGRESAR PRE-INSCRIPCION</mat-card-title>
+      <mat-card-content class="mt-8">
+        <form class="flex flex-row flex-wrap gap-2 justify-center">
+          <mat-form-field class="w-5/12">
+            <mat-label>Tipo Documento</mat-label>
+            <mat-select>
+              <mat-option value="dni">D.N.I.</mat-option>
+              <mat-option value="ce">Carne Extranjeria</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-5/12">
+            <mat-label>Número de Documento</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field class="w-5/12">
+            <mat-label>Nombres</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field class="w-5/12">
+            <mat-label>Apellidos</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field class="w-5/12">
+            <mat-label>Correo</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field class="w-5/12">
+            <mat-label>Celular</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <mat-form-field class="w-10/12">
+            <mat-label>Taller Interesado</mat-label>
+            <mat-select>
+              <mat-option value="guitarra">Guitarra</mat-option>
+              <mat-option value="canto">Canto</mat-option>
+              <mat-option value="piano">Piano</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-flat-button color="primary" class="w-2/6">Registrar</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</main>

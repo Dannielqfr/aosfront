@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -14,8 +14,8 @@ import {
 } from '@angular/material/dialog';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { PeopleService } from '../../services/people.service';
-import { Observable, map } from 'rxjs';
-import { HttpResult, TypePerson, TypeQueryResult } from '../../interfaces/types';
+import { Observable } from 'rxjs';
+import { HttpResult, TypePerson } from '../../interfaces/types';
 import { AsyncPipe } from '@angular/common'
 
 export interface PeriodicElement {
@@ -24,19 +24,6 @@ export interface PeriodicElement {
   fecha: string;
   talleres: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, alumno: 'Carlos', fecha: '01/05/24', talleres: '1' },
-  { position: 2, alumno: 'Stephany', fecha: '01/05/24', talleres: '1' },
-  { position: 3, alumno: 'Raquel', fecha: '01/05/24', talleres: '1' },
-  { position: 4, alumno: 'Pedro', fecha: '01/05/24', talleres: '1' },
-  { position: 5, alumno: 'Tomas', fecha: '01/05/24', talleres: '1' },
-  { position: 6, alumno: 'Guillermo', fecha: '01/05/24', talleres: '1' },
-  { position: 7, alumno: 'Sofia', fecha: '01/05/24', talleres: '1' },
-  { position: 8, alumno: 'Susana', fecha: '01/05/24', talleres: '1' },
-  { position: 9, alumno: 'Pepe', fecha: '01/05/24', talleres: '1' },
-  { position: 10, alumno: 'Neon', fecha: '01/05/24', talleres: '1' },
-];
 
 @Component({
   selector: 'app-people',
@@ -53,28 +40,34 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    AsyncPipe
+    AsyncPipe,
   ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.css',
 })
 export class PeopleComponent {
   public peopleResult$!: Observable<HttpResult>
-  displayedColumns: string[] = ['alumno', 'fecha', 'talleres', 'position'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['personname', 'personlastname', 'address', 'phonenumber', 'position'];
+  dataSource: TypePerson[] = [];
 
   constructor(public dialog: MatDialog, private service: PeopleService) { }
 
   ngOnInit() {
-    this.peopleResult$ = this.service.getPeople().pipe(
-      map((response: HttpResult) => response) // Asegúrate de que response.data es un array de TypePerson
+    // this.peopleResult$ = this.service.getPeople().pipe(
+    //   map((response: HttpResult) => response) // Asegúrate de que response.data es un array de TypePerson
+    // );
+    this.service.getPeople().subscribe(
+      (result: HttpResult) => {
+        if (result.success) {
+          this.dataSource = result.data;
+        } else {
+          console.log("error aqui")
+        }
+      },
+      (error) => {
+        console.error('Error fetching people:', error);
+      }
     );
-    // this.service.getPeople().subscribe(data => {
-    //   console.log("***")
-    //   console.log(data);
-    //   console.log("***")
-    //   this.peopleResult$ = data.data
-    // })
   }
 
   openDialog(): void {
@@ -85,8 +78,9 @@ export class PeopleComponent {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      console.log('The dialog was closed',result);
     });
+
   }
+
 }
