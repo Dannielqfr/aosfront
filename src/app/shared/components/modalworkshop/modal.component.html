@@ -1,0 +1,75 @@
+<!-- <h2 mat-dialog-title>Hi {{ data.name }}</h2> -->
+<mat-dialog-content>
+  <h1>Agregar</h1>
+  <mat-divider></mat-divider>
+  <form [formGroup]="form" class="w-full flex flex-row flex-wrap gap-3 mt-7">
+    
+    <mat-form-field class="w-full">
+      <mat-label>Taller</mat-label>
+      <input matInput formControlName="workshopname"/>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Desripción</mat-label>
+      <input matInput formControlName="workdescription"/>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(30%)]">
+      <mat-label>Costo 1</mat-label>
+      <input matInput formControlName="costfirst"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(30%)]">
+      <mat-label>Costo 2</mat-label>
+      <input matInput formControlName="costsecond"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(30%)]">
+      <mat-label>Costo 3</mat-label>
+      <input matInput formControlName="costthird"/>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Horario</mat-label>
+      <input matInput formControlName="workshopschedule"/>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Inicio</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="startsin"/>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Fin</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="endsin"/>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Capacidad</mat-label>
+      <input matInput formControlName="capacity"/>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="state">
+        <mat-option value="CREADO">CREADO</mat-option>
+        <mat-option value="PUBLICADO">PUBLICADO</mat-option>
+        <mat-option value="EN PROCESO">EN PROCESO</mat-option>
+        <mat-option value="TERMINADO">TERMINADO</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="flex w-full align-middle items-center justify-center">
+      <button class="px-4 py-2" mat-button [mat-dialog-close]="" color="primary" cdkFocusInitial
+        type="submit" (click)="clicking()">
+        Grabar
+      </button>
+    </div>
+  </form>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

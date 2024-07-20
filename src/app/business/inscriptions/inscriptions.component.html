@@ -1,1 +1,37 @@
-<p>inscriptions works!</p>
+<div>
+    <div class="flex justify-between items-center mb-5">
+      <button mat-raised-button color="accent" (click)="openDialog(null)">
+        <mat-icon>add</mat-icon>Agregar
+      </button>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Buscar</mat-label>
+          <input matInput placeholder="Nombre" value="" (keyup)="applyFilter($event)"/>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  
+  <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="personname">
+      <th mat-header-cell *matHeaderCellDef> Nombres </th>
+      <td mat-cell *matCellDef="let element" class="capitalize"> {{ element.person.personname }} </td>
+    </ng-container>
+    <ng-container matColumnDef="personlastname">
+      <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+      <td mat-cell *matCellDef="let element" class="capitalize"> {{ element.person.personlastname }} </td>
+    </ng-container>
+    <ng-container matColumnDef="workshopname">
+      <th mat-header-cell *matHeaderCellDef> Taller Inscritp </th>
+      <td mat-cell *matCellDef="let element" class="capitalize"> {{ element.workshop.workshopname }} </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer text-orange-400"
+          (click)="openDialog(element)">edit</mat-icon></td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>

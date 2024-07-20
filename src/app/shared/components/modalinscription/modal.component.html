@@ -1,0 +1,60 @@
+<!-- <h2 mat-dialog-title>Hi {{ data.name }}</h2> -->
+<mat-dialog-content>
+  <h1>Agregar</h1>
+  <mat-divider></mat-divider>
+  <form [formGroup]="form" class="w-full flex flex-row flex-wrap gap-3 mt-7">
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Tipo Documento</mat-label>
+      <mat-select formControlName="iddocumenttype">
+        <mat-option value="dni">D.N.I.</mat-option>
+        <mat-option value="ce">Carne Extranjería</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Número de Documento</mat-label>
+      <input matInput formControlName="documentnumber"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Nombres</mat-label>
+      <input matInput formControlName="personname"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="personlastname"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthdate"/>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Celular</mat-label>
+      <input matInput formControlName="phonenumber"/>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="address"/>
+    </mat-form-field>
+
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="username"/>
+    </mat-form-field>
+    <mat-form-field class="w-[calc(50%-6px)]">
+      <mat-label>Contraseña</mat-label>
+      <input matInput formControlName="userpass"/>
+    </mat-form-field>
+
+    <div class="flex w-full align-middle items-center justify-center">
+      <button class="px-4 py-2" mat-button [mat-dialog-close]="" color="primary" cdkFocusInitial
+        type="submit" (click)="clicking()">
+        Grabar
+      </button>
+    </div>
+  </form>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

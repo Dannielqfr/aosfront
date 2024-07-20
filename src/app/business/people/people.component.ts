@@ -46,8 +46,8 @@ export interface PeriodicElement {
   styleUrl: './people.component.css',
 })
 export class PeopleComponent {
-  public peopleResult$!: Observable<HttpResult>
-  displayedColumns: string[] = ['personname', 'personlastname', 'address', 'phonenumber', 'position'];
+  //public peopleResult$!: Observable<HttpResult>
+  displayedColumns: string[] = ['personname', 'personlastname', 'address', 'phonenumber','inscription_count', 'position'];
   dataSource: TypePerson[] = [];
   filterValue: string = '';
   originalDataSource: TypePerson[] = [];

@@ -24,8 +24,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDivider } from '@angular/material/divider';
 import { HttpClient } from '@angular/common/http';
-import { PeopleService } from '../../../services/people.service';
-import { HttpResult, TypePerson } from '../../../interfaces/types';
+import { HttpResult, TypeWorkshop } from '../../../interfaces/types';
+import { WorkshopService } from '../../../services/workshop.service';
 
 // export interface DialogData {
 //   animal: string;
@@ -33,23 +33,26 @@ import { HttpResult, TypePerson } from '../../../interfaces/types';
 //   template: TemplateRef<any>;
 // }
 interface DialogData {
-  person: TypePerson | null;
+  workshop: TypeWorkshop | null;
 }
 
 interface FormData {
-  iddocumenttype: string;
-  documentnumber: string;
-  personname: string;
-  personlastname: string;
-  birthdate: Date;
-  phonenumber: string;
-  address: string;
-  username: string;
-  userpass: string;
+  idworkshop: number;
+  workshopname: string;
+  workdescription?: string;
+  idinstructor: string;
+  costfirst: number;
+  costsecond: number;
+  costthird: number;
+  workshopschedule: string;
+  startsin: Date;
+  endsin: Date;
+  capacity: string;
+  state: string;
 }
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-modal-workshop',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -72,18 +75,18 @@ interface FormData {
   styleUrl: './modal.component.css',
   providers: [provideNativeDateAdapter()],
 })
-export class ModalComponent {
+export class ModalComponentWorkshop {
   form: FormGroup;
   isnew: boolean;
 
   constructor(
-    public dialogRef: MatDialogRef<ModalComponent>,
+    public dialogRef: MatDialogRef<ModalComponentWorkshop>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
     private http: HttpClient,
-    private peopleService: PeopleService
+    private workshopService: WorkshopService
   ) {
-    if (data.person) {
+    if (data.workshop) {
       console.log('existe');
       this.isnew = false;
     } else {
@@ -91,18 +94,17 @@ export class ModalComponent {
       this.isnew = true;
     }
     this.form = this.fb.group({
-      iddocumenttype: [
-        data.person?.iddocumenttype == 1 ? 'dni' : 'ce',
-        Validators.required,
-      ],
-      documentnumber: [data.person?.documentnumber, Validators.required],
-      personname: [data.person?.personname, Validators.required],
-      personlastname: [data.person?.personlastname, Validators.required],
-      username: [data.person?.username, Validators.required],
-      userpass: [data.person?.userpass, Validators.required],
-      birthdate: [data.person?.birthdate],
-      phonenumber: [data.person?.phonenumber],
-      address: [data.person?.address],
+      idworkshop: [data.workshop?.idworkshop],
+      workshopname: [data.workshop?.workshopname, Validators.required],
+      workdescription: [data.workshop?.workdescription, Validators.required],
+      costfirst: [data.workshop?.costfirst, Validators.required],
+      costsecond: [data.workshop?.costsecond, Validators.required],
+      costthird: [data.workshop?.costthird, Validators.required],
+      workshopschedule: [data.workshop?.workshopschedule],
+      startsin: [data.workshop?.startsin],
+      endsin: [data.workshop?.endsin],
+      capacity: [data.workshop?.capacity],
+      state: [data.workshop?.state],
     });
   }
 
@@ -111,21 +113,26 @@ export class ModalComponent {
   }
 
   clicking(): void {
-    if (typeof this.form.value?.birthdate == 'string') {
-      this.form.value.birthdate = new Date(this.form.value.birthdate);
+    if (typeof this.form.value?.startsin == 'string') {
+      this.form.value.startsin = new Date(this.form.value.startsin);
     }
-    console.log(this.isnew);
+    if (typeof this.form.value?.endsin == 'string') {
+      this.form.value.endsin = new Date(this.form.value.endsin);
+    }
     if (this.isnew) {
       if (this.form.valid) {
         const formData: FormData = this.form.value;
-        console.log(formData.birthdate);
-        this.peopleService
-          .postPeople({
+        this.workshopService
+          .postWorkshop({
             ...formData,
-            iddocumenttype: 1,
-            birthdate: `${formData.birthdate.getFullYear()}-${
-              formData.birthdate.getUTCMonth() + 1
-            }-${formData.birthdate.getUTCDate()}`,
+            //idworkshop: 1,
+            idinstructor:"12345690",
+            startsin: `${formData.startsin.getFullYear()}-${
+              formData.startsin.getUTCMonth() + 1
+            }-${formData.startsin.getUTCDate()}`,
+            endsin: `${formData.endsin.getFullYear()}-${
+              formData.endsin.getUTCMonth() + 1
+            }-${formData.endsin.getUTCDate()}`,
           })
           .subscribe((result: HttpResult) => {
             if (result.success) {
@@ -137,16 +144,21 @@ export class ModalComponent {
       }
     } else {
       if (this.form.valid) {
+        
         const formData: FormData = this.form.value;
-        this.peopleService
-          .putPeople({
+        this.workshopService
+          .putWorkshop({
             ...formData,
-            iddocumenttype: 1,
-            birthdate: `${formData.birthdate.getFullYear()}-${
-              formData.birthdate.getUTCMonth() + 1
-            }-${formData.birthdate.getUTCDate()}`,
+            idinstructor:"12345690",
+            startsin: `${formData.startsin.getFullYear()}-${
+              formData.startsin.getUTCMonth() + 1
+            }-${formData.startsin.getUTCDate()}`,
+            endsin: `${formData.endsin.getFullYear()}-${
+              formData.endsin.getUTCMonth() + 1
+            }-${formData.endsin.getUTCDate()}`,
           })
           .subscribe((result: HttpResult) => {
+            console.log(result)
             if (result.success) {
               this.dialogRef.close();
             } else {

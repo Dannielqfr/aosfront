@@ -1,39 +1,81 @@
 <div>
   <div class="flex justify-between items-center align-middle mb-5">
-    <button mat-raised-button color="accent" (click)="openDialog()">
+    <button mat-raised-button color="accent" (click)="openDialog(null)">
       <mat-icon>add</mat-icon>Agregar
     </button>
     <img src="https://p.calameoassets.com/230411003925-acdb259630bd2654c88b612b176a3a2e/p1.jpg" class="w-[100px]"/>
     <form>
       <mat-form-field>
         <mat-label>Buscar</mat-label>
-        <input matInput placeholder="Nombre" value="" />
+        <input matInput placeholder="Taller" value="" (keyup)="applyFilter($event)"/>
       </mat-form-field>
     </form>
   </div>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8">
     <!-- Name Column -->
-    <ng-container matColumnDef="alumno">
-      <th mat-header-cell *matHeaderCellDef>Alumno</th>
-      <td mat-cell *matCellDef="let element">{{ element.alumno }}</td>
+    <ng-container matColumnDef="idworkshop">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.idworkshop }}</td>
+    </ng-container>
+    <ng-container matColumnDef="workshopname">
+      <th mat-header-cell *matHeaderCellDef>Taller</th>
+      <td mat-cell *matCellDef="let element">{{ element.workshopname }}</td>
+    </ng-container>
+    <ng-container matColumnDef="workdescription">
+      <th mat-header-cell *matHeaderCellDef>Taller</th>
+      <td mat-cell *matCellDef="let element">{{ element.workdescription }}</td>
     </ng-container>
 
-    <!-- Weight Column -->
-    <!-- <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef>Fecha</th>
-      <td mat-cell *matCellDef="let element">{{ element.fecha }}</td>
-    </ng-container> -->
-
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="talleres">
-      <th mat-header-cell *matHeaderCellDef>Talleres inscritos</th>
-      <td mat-cell *matCellDef="let element">{{ element.talleres }}</td>
+    <ng-container matColumnDef="costfirst">
+      <th mat-header-cell *matHeaderCellDef>Costo 1</th>
+      <td mat-cell *matCellDef="let element">{{ element.costfirst }}</td>
+    </ng-container>
+    <ng-container matColumnDef="costsecond">
+      <th mat-header-cell *matHeaderCellDef>Costo 2</th>
+      <td mat-cell *matCellDef="let element">{{ element.costsecond }}</td>
+    </ng-container>
+    <ng-container matColumnDef="costthird">
+      <th mat-header-cell *matHeaderCellDef>Costo 3</th>
+      <td mat-cell *matCellDef="let element">{{ element.costthird }}</td>
     </ng-container>
 
-    <!-- Position Column -->
+    <ng-container matColumnDef="workshopschedule">
+      <th mat-header-cell *matHeaderCellDef>Horario</th>
+      <td mat-cell *matCellDef="let element">{{ element.workshopschedule }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="startsin">
+      <th mat-header-cell *matHeaderCellDef>Inicio</th>
+      <td mat-cell *matCellDef="let element">{{ element.startsin.substring(0,10)}}</td>
+    </ng-container>
+    <ng-container matColumnDef="endsin">
+      <th mat-header-cell *matHeaderCellDef>Fin</th>
+      <td mat-cell *matCellDef="let element">{{ element.endsin.substring(0,10)}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="capacity">
+      <th mat-header-cell *matHeaderCellDef>Capacidad</th>
+      <td mat-cell *matCellDef="let element">{{ element.capacity }}</td>
+    </ng-container>
+    <ng-container matColumnDef="inscription_count">
+      <th mat-header-cell *matHeaderCellDef>Inscritos</th>
+      <td mat-cell *matCellDef="let element">{{ element.inscription_count }}</td>
+    </ng-container>
+    <ng-container matColumnDef="available_capacity">
+      <th mat-header-cell *matHeaderCellDef>Disponible</th>
+      <td mat-cell *matCellDef="let element">{{ element.available_capacity }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let element">{{ element.state}}</td>
+    </ng-container>
+
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer" (click)="openDialog()">edit</mat-icon></td>
+      <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer text-orange-400"
+          (click)="openDialog(element)">edit</mat-icon></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

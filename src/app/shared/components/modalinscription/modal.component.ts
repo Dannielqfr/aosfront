@@ -49,7 +49,7 @@ interface FormData {
 }
 
 @Component({
-  selector: 'app-modal',
+  selector: 'app-modal-inscription',
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -72,12 +72,12 @@ interface FormData {
   styleUrl: './modal.component.css',
   providers: [provideNativeDateAdapter()],
 })
-export class ModalComponent {
+export class ModalComponentInscription {
   form: FormGroup;
   isnew: boolean;
 
   constructor(
-    public dialogRef: MatDialogRef<ModalComponent>,
+    public dialogRef: MatDialogRef<ModalComponentInscription>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
     private http: HttpClient,

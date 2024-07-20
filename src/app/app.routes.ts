@@ -28,7 +28,7 @@ export const routes: Routes = [
       },
       {
         path: 'inscriptions',
-        component: PeopleComponent,
+        component: InscriptionsComponent,
         canActivate: [authGuard2],
         // component: InscriptionsComponent,
       },

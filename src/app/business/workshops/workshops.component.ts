@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle,
+} from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
 import { MatTable, MatTableModule } from '@angular/material/table';
+import { HttpResult, TypeWorkshop } from '../../interfaces/types';
+import { WorkshopService } from '../../services/workshop.service';
+import { ModalComponentWorkshop } from '../../shared/components/modalworkshop/modal.component';
 
 export interface PeriodicElement {
   alumno: string;
@@ -14,19 +22,6 @@ export interface PeriodicElement {
   fecha: string;
   talleres: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  { position: 1, alumno: 'Carlos', fecha: '01/05/24', talleres: '1' },
-  { position: 2, alumno: 'Stephany', fecha: '01/05/24', talleres: '1' },
-  { position: 3, alumno: 'Raquel', fecha: '01/05/24', talleres: '1' },
-  { position: 4, alumno: 'Pedro', fecha: '01/05/24', talleres: '1' },
-  { position: 5, alumno: 'Tomas', fecha: '01/05/24', talleres: '1' },
-  { position: 6, alumno: 'Guillermo', fecha: '01/05/24', talleres: '1' },
-  { position: 7, alumno: 'Sofia', fecha: '01/05/24', talleres: '1' },
-  { position: 8, alumno: 'Susana', fecha: '01/05/24', talleres: '1' },
-  { position: 9, alumno: 'Pepe', fecha: '01/05/24', talleres: '1' },
-  { position: 10, alumno: 'Neon', fecha: '01/05/24', talleres: '1' },
-];
 
 @Component({
   selector: 'app-workshops',
@@ -48,13 +43,49 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './workshops.component.css',
 })
 export class WorkshopsComponent {
-  displayedColumns: string[] = ['alumno', 'fecha', 'talleres', 'position'];
-  dataSource = ELEMENT_DATA;
+  //public workshopsResults$: Observable<HttpResult>;
+  displayedColumns: string[] = [
+    'idworkshop',
+    'workshopname',
+    'workdescription',
+    'costfirst',
+    'costsecond',
+    'costthird',
+    'workshopschedule',
+    'startsin',
+    'endsin',
+    'capacity',
+    'inscription_count',
+    'available_capacity',
+    'state',
+    'position',
+  ];
+  dataSource: TypeWorkshop[] = [];
+  filterValue: string = '';
+  originalDataSource: TypeWorkshop[] = [];
+  filteredDataSource: TypeWorkshop[] = [];
 
-  constructor(public dialog: MatDialog) {}
-  openDialog(): void {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      data: { name: 'this.name', animal: 'this.animal' },
+  constructor(public dialog: MatDialog, private service: WorkshopService) {}
+  ngOnInit() {
+    this.service.getWorkshops().subscribe(
+      (result: HttpResult) => {
+        if (result.success) {
+          this.dataSource = result.data;
+          this.originalDataSource = result.data;
+          this.filteredDataSource = result.data;
+        } else {
+          console.log('error aqui');
+        }
+      },
+      (error) => {
+        console.error('Error fetching people:', error);
+      }
+    );
+  }
+
+  openDialog(n: TypeWorkshop | null): void {
+    const dialogRef = this.dialog.open(ModalComponentWorkshop, {
+      data: { workshop: n },
       width: '40%',
       minWidth: '350px',
     });
@@ -63,5 +94,23 @@ export class WorkshopsComponent {
       console.log('The dialog was closed');
       // this.animal = result;
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.filterValue = filterValue;
+
+    if (this.filterValue) {
+      this.filteredDataSource = this.originalDataSource.filter(
+        (workshop) =>
+          workshop.workshopname.toLowerCase().includes(this.filterValue) ||
+          workshop.workdescription?.toLowerCase().includes(this.filterValue) ||
+          workshop.state.toLowerCase().includes(this.filterValue)
+      );
+    } else {
+      this.filteredDataSource = this.originalDataSource;
+    }
   }
 }
