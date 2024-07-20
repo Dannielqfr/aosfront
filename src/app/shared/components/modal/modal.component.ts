@@ -22,10 +22,13 @@ import { PeopleService } from '../../../services/people.service';
 import { HttpResult, TypePerson } from '../../../interfaces/types';
 
 
-export interface DialogData {
-  animal: string;
-  name: string;
-  template: TemplateRef<any>;
+// export interface DialogData {
+//   animal: string;
+//   name: string;
+//   template: TemplateRef<any>;
+// }
+interface DialogData {
+  person: TypePerson | null;
 }
 
 interface FormData {
@@ -58,7 +61,7 @@ interface FormData {
     MatNativeDateModule,
     MatDivider,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css',
@@ -66,24 +69,33 @@ interface FormData {
 })
 export class ModalComponent {
   form: FormGroup;
+  isnew: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private fb: FormBuilder,
     private http: HttpClient,
-    private peopleService:PeopleService
+    private peopleService: PeopleService
   ) {
+    if (data.person) {
+      console.log("existe")
+      this.isnew = false;
+    } else {
+      console.log("NO existe")
+      this.isnew = true;
+
+    }
     this.form = this.fb.group({
-      iddocumenttype: ['', Validators.required],
-      documentnumber: ['', Validators.required],
-      personname: ['', Validators.required],
-      personlastname: ['', Validators.required],
-      username: ['', Validators.required],
-      userpass: ['', Validators.required],
-      birthdate: [''],
-      phonenumber: [''],
-      address: ['']
+      iddocumenttype: [data.person?.iddocumenttype == 1 ? "dni" : "ce", Validators.required],
+      documentnumber: [data.person?.documentnumber, Validators.required],
+      personname: [data.person?.personname, Validators.required],
+      personlastname: [data.person?.personlastname, Validators.required],
+      username: [data.person?.username, Validators.required],
+      userpass: [data.person?.userpass, Validators.required],
+      birthdate: [data.person?.birthdate],
+      phonenumber: [data.person?.phonenumber],
+      address: [data.person?.address]
     });
   }
 
@@ -92,22 +104,45 @@ export class ModalComponent {
   }
 
   clicking(): void {
-    console.log("🚀 ~ ModalComponent ~ clicking ~ formData:", this.form.value.birthdate.getUTCMonth())
-    if (this.form.valid) {
-      const formData: FormData = this.form.value;
-      this.peopleService.postPeople({
-        ...formData,
-        iddocumenttype:1,
-        birthdate:`${formData.birthdate.getFullYear()}-${formData.birthdate.getUTCMonth()}-${formData.birthdate.getUTCDate()}`
-      }).subscribe(
-        (result: HttpResult)=>{
-          if (result.success) {
-            this.dialogRef.close();
-          } else {
-            console.error('Error al enviar el formulario:', result.message);
+    if (typeof this.form.value?.birthdate == "string") {
+      this.form.value.birthdate = new Date(this.form.value.birthdate)
+    }
+    console.log(this.isnew)
+    if (this.isnew) {
+      if (this.form.valid) {
+        const formData: FormData = this.form.value;
+        console.log(formData.birthdate)
+        this.peopleService.postPeople({
+          ...formData,
+          iddocumenttype: 1,
+          birthdate: `${formData.birthdate.getFullYear()}-${formData.birthdate.getUTCMonth() + 1}-${formData.birthdate.getUTCDate()}`
+        }).subscribe(
+          (result: HttpResult) => {
+            if (result.success) {
+              this.dialogRef.close();
+            } else {
+              console.error('Error al enviar el formulario:', result.message);
+            }
           }
-        }
-      )
+        )
+      }
+    } else {
+      if (this.form.valid) {
+        const formData: FormData = this.form.value;
+        this.peopleService.putPeople({
+          ...formData,
+          iddocumenttype: 1,
+          birthdate: `${formData.birthdate.getFullYear()}-${formData.birthdate.getUTCMonth() + 1}-${formData.birthdate.getUTCDate()}`
+        }).subscribe(
+          (result: HttpResult) => {
+            if (result.success) {
+              this.dialogRef.close();
+            } else {
+              console.error('Error al enviar el formulario:', result.message);
+            }
+          }
+        )
+      }
       //console.log("🚀 ~ ModalComponent ~ clicking ~ formData:", formData.birthdate.getUTCMonth() //getUTCDate getUTCMonth getFullYear()
       // Lógica para enviar el formulario al servidor
       // this.http.post('URL_DEL_API', formData)
@@ -120,6 +155,8 @@ export class ModalComponent {
       //       console.error('Error al enviar el formulario:', error);
       //     }
       //   );
+      window.location.reload()
     }
   }
 }
+

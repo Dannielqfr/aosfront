@@ -29,4 +29,14 @@ export class PeopleService {
 
     return this.http.post<HttpResult>(`http://127.0.0.1:3000/person/post`, person, { headers })
   }
+
+  putPeople(person: TypePerson): Observable<HttpResult> {
+    let token = '';
+    if (typeof window !== 'undefined' && localStorage.getItem('token')) {
+      token = localStorage.getItem('token') || "";
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.put<HttpResult>(`http://127.0.0.1:3000/person/update/${person.documentnumber}`, person, { headers })
+  }
 }

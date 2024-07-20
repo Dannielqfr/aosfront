@@ -49,6 +49,9 @@ export class PeopleComponent {
   public peopleResult$!: Observable<HttpResult>
   displayedColumns: string[] = ['personname', 'personlastname', 'address', 'phonenumber', 'position'];
   dataSource: TypePerson[] = [];
+  filterValue: string = '';
+  originalDataSource: TypePerson[] = [];
+  filteredDataSource: TypePerson[] = [];
 
   constructor(public dialog: MatDialog, private service: PeopleService) { }
 
@@ -60,6 +63,8 @@ export class PeopleComponent {
       (result: HttpResult) => {
         if (result.success) {
           this.dataSource = result.data;
+          this.originalDataSource = result.data;
+          this.filteredDataSource = result.data;
         } else {
           console.log("error aqui")
         }
@@ -70,17 +75,35 @@ export class PeopleComponent {
     );
   }
 
-  openDialog(): void {
+  openDialog(n: TypePerson | null): void {
+    //console.log(n)
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: { name: 'this.name', animal: 'this.animal' },
+      data: { person: n },
       width: '40%',
       minWidth: '350px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed',result);
+      console.log('The dialog was closed', result);
     });
 
+  }
+
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.filterValue = filterValue;
+
+    if (this.filterValue) {
+      this.filteredDataSource = this.originalDataSource.filter(person =>
+        person.personname.toLowerCase().includes(this.filterValue) ||
+        person.personlastname.toLowerCase().includes(this.filterValue) ||
+        person.address?.toLowerCase().includes(this.filterValue) ||
+        person.phonenumber?.toLowerCase().includes(this.filterValue)
+      );
+    } else {
+      this.filteredDataSource = this.originalDataSource;
+    }
   }
 
 }

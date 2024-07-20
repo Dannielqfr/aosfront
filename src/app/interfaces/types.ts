@@ -18,6 +18,8 @@ export interface TypePerson {
     phonenumber?: string;
     birthdate?: Date | string;
     idparent?: string;
+    username?: string;
+    userpass?:string
 }
 
 export interface TypeWorkshop {
